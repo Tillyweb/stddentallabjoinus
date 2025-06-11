@@ -3,485 +3,484 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.T.D.DENTALLAB - Partner Clinics</title>
-    <!-- Tailwind CSS for styling -->
+    <title>S.T.D.DENTALLAB - รับสมัครงาน</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- SweetAlert2 for notifications -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Google Fonts: Kanit -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Kanit', sans-serif;
-            overflow-x: hidden; /* Prevent horizontal scroll from emojis */
+            background: linear-gradient(125deg, #fde2e6 0%, #e3eeff 100%);
+            color: #3f3f46; /* Zinc 700 */
+            overflow-x: hidden;
         }
-        /* Custom styles for better aesthetics */
-        .btn {
-            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+        .main-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            position: relative;
+            display: flex;
+            flex-direction: column;
         }
-        .btn:hover {
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        .page {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out;
         }
-        .btn-gradient {
-            background-image: linear-gradient(to right, #a8c0ff 0%, #d9a7c7 51%, #f3a683 100%);
-            transition: 0.5s;
-            background-size: 200% auto;
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .floating-element {
+            position: absolute;
+            font-size: 2.5rem;
+            animation: float-up-down 20s infinite ease-in-out;
+            opacity: 0.7;
+            z-index: 0;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.05));
+        }
+        @keyframes float-up-down {
+            0%, 100% { transform: translateY(-10px); }
+            50% { transform: translateY(10px); }
+        }
+        th {
+            background-color: #a855f7;
             color: white;
         }
-        .btn-gradient:hover {
+        tr:nth-child(even) {
+            background-color: #f4f4f5;
+        }
+        .text-gradient {
+            background: linear-gradient(45deg, #8b5cf6, #3b82f6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            animation: gradient-animation 5s ease infinite;
+            background-size: 200% 200%;
+        }
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .btn-nav {
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            color: white;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px -5px rgba(0,0,0,0.2);
+            border: none;
+            background-size: 200% auto;
+        }
+        .btn-nav:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 7px 25px -5px rgba(0,0,0,0.3);
             background-position: right center;
         }
-        .card {
-            background: white;
-            border-radius: 1rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        /* Loading Spinner */
-        .loader {
-            border: 8px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 8px solid #a8c0ff;
-            width: 60px;
-            height: 60px;
-            animation: spin 2s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        .btn-blue { background-image: linear-gradient(to right, #3b82f6 0%, #60a5fa 51%, #3b82f6 100%); }
+        .btn-purple { background-image: linear-gradient(to right, #8b5cf6 0%, #a855f7 51%, #8b5cf6 100%); }
+        .btn-teal { background-image: linear-gradient(to right, #14b8a6 0%, #2dd4bf 51%, #14b8a6 100%); }
+        .btn-pink { background-image: linear-gradient(to right, #ec4899 0%, #f472b6 51%, #ec4899 100%); }
 
-        /* --- ADDED: Emoji Background Animation --- */
-        #emoji-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0;
+        /* Accordion Styles */
+        .accordion-button {
+            width: 100%; background-color: #f3f4f6; color: #374151; text-align: left; padding: 1rem; font-weight: 600;
+            border: none; border-radius: 0.5rem; cursor: pointer; transition: background-color 0.3s ease; display: flex;
+            justify-content: space-between; align-items: center;
         }
-        .emoji {
-            position: absolute;
-            bottom: -50px; /* Start from below the screen */
-            font-size: 2rem;
-            opacity: 0.2;
-            animation: floatUp 15s linear infinite;
+        .accordion-button:hover, .accordion-button.active { background-color: #e5e7eb; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background-color: white; padding: 0 1rem; border-top: 1px solid #e5e7eb; }
+        .accordion-content.show { max-height: 1000px; padding: 1rem; }
+        .accordion-button .icon::after { content: '+'; font-size: 1.5rem; font-weight: 300; transition: transform 0.3s ease; color: #8b5cf6; }
+        .accordion-button.active .icon::after { transform: rotate(45deg); }
+
+        /* Update button icon rotation effect */
+        .btn-update:hover .update-icon {
+            transform: rotate(180deg);
         }
-        @keyframes floatUp {
-            0% {
-                transform: translateY(0);
-                opacity: 0.2;
-            }
-            100% {
-                transform: translateY(-100vh); /* Move up to the top */
-                opacity: 0.1;
-            }
+        .update-icon {
+            transition: transform 0.5s ease;
+            display: inline-block;
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="min-h-screen flex items-center justify-center p-4">
+    
+    <div class="main-card w-full max-w-5xl mx-auto p-6 sm:p-10 z-10 overflow-hidden">
+        <div id="cover-emojis-container" class="absolute top-0 left-0 w-full h-full pointer-events-none"></div>
 
-    <!-- Main container -->
-    <div class="container mx-auto p-4 max-w-7xl">
-
-        <!-- Cover Page -->
-        <div id="page-cover">
-            <div class="min-h-screen relative flex flex-col text-center p-6 rounded-2xl bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 overflow-hidden">
-                
-                <!-- ADDED: Emoji background container -->
-                <div id="emoji-background"></div>
-
-                <!-- Main Content Wrapper, flex-grow and z-10 to be on top of emojis -->
-                <div class="relative z-10 flex-grow flex flex-col items-center justify-center">
-                    <h1 class="text-4xl md:text-6xl font-bold text-gray-700 mb-2">S.T.D. DENTAL LAB</h1>
-                    <p class="text-xl md:text-2xl text-gray-600 mb-8">🦷คลินิกทันตกรรมที่ร่วมงานกับเรา✨</p>
-                    <div class="space-y-4 md:space-y-0 md:space-x-4 flex flex-col md:flex-row items-center">
-                        <button onclick="showPage('page-dashboard')" class="btn btn-gradient font-bold py-3 px-6 rounded-full shadow-lg text-lg w-full md:w-auto mb-4 md:mb-0">
-                            ดูรายชื่อคลินิกทันตกรรม 🏥
-                        </button>
-                        <button onclick="showPage('page-register')" class="btn btn-gradient font-bold py-3 px-6 rounded-full shadow-lg text-lg w-full md:w-auto mb-4 md:mb-0">
-                            คลินิกสนใจร่วมงานกับเรา ✍️
-                        </button>
-                        <button onclick="showPage('page-catalog')" class="btn btn-gradient font-bold py-3 px-6 rounded-full shadow-lg text-lg w-full md:w-auto">
-                            Catalog สินค้า 📦
-                        </button>
-                    </div>
-                </div>
-
-                <!-- About Us Section (Footer), z-10 to be on top -->
-                <div class="relative z-10 w-full">
-                    <div class="max-w-3xl mx-auto bg-white bg-opacity-60 backdrop-blur-sm p-4 rounded-xl shadow-md">
-                        <h3 class="text-lg font-bold text-gray-800 mb-2">เกี่ยวกับเรา</h3>
-                        <p class="text-sm text-gray-700">
-                            ห้างหุ้นส่วนจำกัด เอส.ที.ดี.เด็นตอล แลป จ.เชียงใหม่ เป็นแลปที่รับผลิตเครื่องมือทางทันตกรรมให้กับคลินิกทันตกรรมและโรงพยาบาลทั่วประเทศ ได้เปิดรับสมัครพนักงานรุ่นใหม่ที่พร้อมจะเติบโตไปด้วยกัน
-                        </p>
-                        <p class="text-sm text-gray-600 mt-2 font-semibold">
-                            ที่ตั้งสำนักงาน: ต.สันปูเลย อ.ดอยสะเก็ด จ.เชียงใหม่ (ใกล้แยกแม่กวง)
-                        </p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Dashboard Page -->
-        <div id="page-dashboard" class="hidden">
-            <!-- UPDATED: Button styling -->
-            <button onclick="showPage('page-cover')" class="btn mb-4 bg-gray-200 text-gray-700 py-2 px-4 rounded-full hover:bg-gray-300">⬅️ กลับหน้าหลัก</button>
-            <h2 class="text-3xl font-bold mb-4 text-center text-gray-700">รายชื่อคลินิกทันตกรรมในเครือ</h2>
-            
-            <div class="my-6 flex flex-col md:flex-row justify-center items-center gap-4">
-                <div class="flex items-center">
-                    <label for="province-filter" class="mr-2 font-semibold text-gray-700">ตัวกรองจังหวัด:</label>
-                    <select id="province-filter" class="p-2 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <!-- Options populated by JS -->
-                    </select>
-                </div>
-                <!-- UPDATED: Button styling -->
-                <button id="update-clinics-btn" class="btn bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full shadow-md">
-                    🔄 อัพเดทข้อมูล
-                </button>
-            </div>
-            
-            <div id="loader-dashboard" class="hidden justify-center items-center my-8"><div class="loader"></div></div>
-            <div class="overflow-x-auto bg-white rounded-lg shadow">
-                <table class="min-w-full leading-normal">
-                    <thead class="bg-gray-100">
-                        <tr>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">จังหวัด</th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">ชื่อคลินิก / โลโก้</th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Cover</th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">รีวิว</th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">ติดต่อ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="clinic-table-body">
-                        <!-- Data will be inserted here by JavaScript -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Registration Page -->
-        <div id="page-register" class="hidden">
-            <!-- UPDATED: Button styling -->
-            <button onclick="showPage('page-cover')" class="btn mb-4 bg-gray-200 text-gray-700 py-2 px-4 rounded-full hover:bg-gray-300">⬅️ กลับหน้าหลัก</button>
-            <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
-                <h2 class="text-3xl font-bold mb-6 text-center text-gray-700">ลงทะเบียนคลินิกทันตกรรม</h2>
-                <form id="clinic-form">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="province">จังหวัด</label>
-                            <select id="province" name="province" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></select>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="clinicName">ชื่อคลินิกทันตกรรม</label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="clinicName" name="clinicName" type="text" placeholder="เช่น คลินิกทันตกรรมรักฟัน" required>
-                        </div>
-                         <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="clinicPage">ลิ้งเพจคลินิก (URL)</label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="clinicPage" name="clinicPage" type="url" placeholder="https://www.facebook.com/yourclinic">
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="dentistName">ทพ. ประจำคลินิก</label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="dentistName" name="dentistName" type="text" placeholder="ทพ. ใจดี มีเมตตา">
-                        </div>
-                         <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="logoUrl">ลิงก์รูป LOGO (URL)</label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="logoUrl" name="logoUrl" type="url" placeholder="วาง URL ของรูปโลโก้ที่นี่">
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="coverUrl">ลิงก์รูป Cover (URL)</label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="coverUrl" name="coverUrl" type="url" placeholder="วาง URL ของรูป Cover ที่นี่">
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="contactNumber">เบอร์โทรติดต่อกลับ</label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="contactNumber" name="contactNumber" type="tel" placeholder="081-234-5678" required>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="additional">บริการเพิ่มเติม</label>
-                            <select id="additional" name="additional" class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline">
-                                <option value="ขอชุด catalog retaianer และใบสั่งผลิตแลป">ขอชุด catalog และใบสั่งผลิตแลป</option>
-                                <option value="สั่งทำงานตัวอย่าง(ราคา50%ของค่าแลป)">สั่งทำงานตัวอย่าง (ราคา 50%)</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="mt-8 text-center">
-                        <!-- UPDATED: Button styling -->
-                        <button class="btn bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-8 rounded-full shadow-lg" type="submit">
-                            ลงทะเบียน
-                        </button>
-                    </div>
-                </form>
+        <div class="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 transform transition-all duration-300 hover:scale-110 hover:rotate-6 z-20">
+             <div class="bg-white p-2 rounded-full shadow-lg">
+                <img src="https://img2.pic.in.th/pic/327187868_5984159441670866_6296357359655082698_n.jpg" 
+                     alt="Logo" class="h-16 w-16 sm:h-20 sm:w-20 rounded-full object-cover"
+                     onerror="this.onerror=null; this.src='https://placehold.co/80x80/e0c3fc/333?text=Logo';">
             </div>
         </div>
         
-        <!-- Catalog Page -->
-        <div id="page-catalog" class="hidden">
-            <!-- UPDATED: Button styling -->
-            <button onclick="showPage('page-cover')" class="btn mb-4 bg-gray-200 text-gray-700 py-2 px-4 rounded-full hover:bg-gray-300">⬅️ กลับหน้าหลัก</button>
-            <h2 class="text-3xl font-bold mb-6 text-center text-gray-700">Catalog สินค้า</h2>
-             <div class="text-center mb-6">
-                <!-- UPDATED: Button styling -->
-                <button id="update-catalog-btn" class="btn bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full shadow-md">
-                    🔄 อัพเดทข้อมูล
-                </button>
-            </div>
-            <div id="loader-catalog" class="hidden justify-center items-center my-8"><div class="loader"></div></div>
-            <div id="catalog-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                <!-- Catalog items will be inserted here -->
-            </div>
-        </div>
+        <main class="flex-grow flex flex-col">
+            <section id="page-cover" class="page active flex-grow flex flex-col">
+                <!-- Main Content -->
+                <div class="flex-grow flex flex-col items-center justify-center text-center">
+                    <h1 class="text-gradient text-5xl sm:text-7xl font-extrabold tracking-tight">S.T.D. DENTALLAB</h1>
+                    <p class="text-xl sm:text-2xl font-medium text-zinc-600 mt-4">สมัครพนักงานเพื่อร่วมงานกับเรา ✨</p>
+                    
+                    <div class="flex flex-wrap justify-center gap-4 mt-12">
+                        <button onclick="showPage('page-register')" class="btn-nav btn-blue">📝 สนใจร่วมงานกับเรา</button>
+                        <button onclick="showPage('page-dashboard')" class="btn-nav btn-purple">📊 สถานะผู้สมัคร</button>
+                        <button onclick="showPage('page-benefits')" class="btn-nav btn-teal">🌟 สวัสดิการพนักงาน</button>
+                        <button onclick="showPage('page-catalog')" class="btn-nav btn-pink">🖼️ Catalog สินค้า</button>
+                    </div>
+                </div>
+                <!-- REMOVED Footer Info from here -->
+            </section>
+
+            <section id="page-dashboard" class="page">
+                <div class="grid grid-cols-3 items-center mb-6">
+                    <div class="text-left">
+                         <button onclick="showPage('page-cover')" class="px-5 py-2 rounded-full font-semibold text-sm bg-gray-200 text-gray-700 hover:bg-gray-300 hover:scale-105 hover:shadow-md transition-all shadow-sm flex items-center gap-2">🏠<span class="hidden sm:inline"> กลับหน้าหลัก</span></button>
+                    </div>
+                    <div class="text-center">
+                        <h2 class="text-xl sm:text-2xl font-bold">สถานะผู้สมัคร</h2>
+                    </div>
+                    <div class="text-right">
+                        <button id="update-dashboard" class="btn-update px-3 sm:px-4 py-2 rounded-full bg-sky-500 text-white hover:bg-sky-600 transition-all transform hover:scale-105 shadow-md flex items-center gap-2 text-sm font-semibold ml-auto">
+                            <span class="update-icon">🔄</span>
+                            <span class="hidden sm:inline">อัพเดทข้อมูล</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="mb-4 text-center" id="filter-buttons"></div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm sm:text-base bg-white shadow-md rounded-lg">
+                        <thead>
+                            <tr>
+                                <th class="p-3">ชื่อ-สกุล</th>
+                                <th class="p-3">สมัครตำแหน่ง</th>
+                                <th class="p-3">สถานะผู้สมัคร</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboard-table-body"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="page-register" class="page">
+                 <div class="grid grid-cols-3 items-center mb-6">
+                    <div class="text-left">
+                        <button onclick="showPage('page-cover')" class="px-5 py-2 rounded-full font-semibold text-sm bg-gray-200 text-gray-700 hover:bg-gray-300 hover:scale-105 hover:shadow-md transition-all shadow-sm flex items-center gap-2">🏠<span class="hidden sm:inline"> กลับหน้าหลัก</span></button>
+                    </div>
+                    <div class="text-center">
+                        <h2 class="text-xl sm:text-2xl font-bold">ลงทะเบียนสมัครงาน</h2>
+                    </div>
+                    <div></div> <!-- Empty div for balance -->
+                </div>
+                <form id="application-form" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" id="fullName" name="fullName" placeholder="ชื่อ-สกุล" class="w-full p-3 rounded-md border" required>
+                        <select id="gender" name="gender" class="w-full p-3 rounded-md border" required>
+                            <option value="">-- เลือกเพศ --</option>
+                            <option value="ชาย">ชาย</option>
+                            <option value="หญิง">หญิง</option>
+                            <option value="อื่นๆ">อื่นๆ</option>
+                        </select>
+                        <input type="tel" id="phone" name="phone" placeholder="เบอร์โทรติดต่อกลับ" class="w-full p-3 rounded-md border" required>
+                        <select id="district" name="district" class="w-full p-3 rounded-md border" required></select>
+                        <input type="number" id="age" name="age" placeholder="อายุ (ปี)" class="w-full p-3 rounded-md border" required>
+                        <input type="number" id="weight" name="weight" placeholder="น้ำหนัก (กก.)" class="w-full p-3 rounded-md border" required>
+                        <input type="number" id="height" name="height" placeholder="ส่วนสูง (ซม.)" class="w-full p-3 rounded-md border" required>
+                        <input type="text" id="health" name="health" placeholder="โรคประจำตัวและสายตา (ถ้ามี)" class="w-full p-3 rounded-md border">
+                        <input type="text" id="education" name="education" placeholder="วุฒิการศึกษา" class="w-full p-3 rounded-md border" required>
+                        <select id="position" name="position" class="w-full p-3 rounded-md border" required>
+                             <option value="">-- สมัครตำแหน่ง --</option>
+                             <option value="ช่างทันตกรรมฝึกหัด">ช่างทันตกรรมฝึกหัด</option>
+                             <option value="พนักงานธุรการ">พนักงานธุรการ</option>
+                             <option value="พนักงานส่งสินค้า">พนักงานส่งสินค้า</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full p-4 font-semibold rounded-lg text-white bg-pink-500 hover:bg-pink-600 transition-colors">ส่งใบสมัคร</button>
+                </form>
+            </section>
+            
+            <section id="page-catalog" class="page">
+                 <div class="grid grid-cols-3 items-center mb-6">
+                    <div class="text-left">
+                        <button onclick="showPage('page-cover')" class="px-5 py-2 rounded-full font-semibold text-sm bg-gray-200 text-gray-700 hover:bg-gray-300 hover:scale-105 hover:shadow-md transition-all shadow-sm flex items-center gap-2">🏠<span class="hidden sm:inline"> กลับหน้าหลัก</span></button>
+                    </div>
+                    <div class="text-center">
+                        <h2 class="text-xl sm:text-2xl font-bold">Catalog สินค้า</h2>
+                    </div>
+                    <div class="text-right">
+                         <button id="update-catalog" class="btn-update px-3 sm:px-4 py-2 rounded-full bg-sky-500 text-white hover:bg-sky-600 transition-all transform hover:scale-105 shadow-md flex items-center gap-2 text-sm font-semibold ml-auto">
+                            <span class="update-icon">🔄</span>
+                            <span class="hidden sm:inline">อัพเดทข้อมูล</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="catalog-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6"></div>
+            </section>
+            
+            <section id="page-benefits" class="page">
+                 <div class="grid grid-cols-3 items-center mb-6">
+                    <div class="text-left">
+                        <button onclick="showPage('page-cover')" class="px-5 py-2 rounded-full font-semibold text-sm bg-gray-200 text-gray-700 hover:bg-gray-300 hover:scale-105 hover:shadow-md transition-all shadow-sm flex items-center gap-2">🏠<span class="hidden sm:inline"> กลับหน้าหลัก</span></button>
+                    </div>
+                    <div class="text-center">
+                        <h2 class="text-xl sm:text-2xl font-bold">สวัสดิการ</h2>
+                    </div>
+                    <div class="text-right">
+                         <button id="update-benefits" class="btn-update px-3 sm:px-4 py-2 rounded-full bg-sky-500 text-white hover:bg-sky-600 transition-all transform hover:scale-105 shadow-md flex items-center gap-2 text-sm font-semibold ml-auto">
+                            <span class="update-icon">🔄</span>
+                            <span class="hidden sm:inline">อัพเดทข้อมูล</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="benefits-accordion" class="space-y-4">
+                    <p class="text-center">กำลังโหลดข้อมูล...</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- NEW FOOTER for all pages -->
+        <footer class="mt-8 pt-6 border-t border-gray-200 text-center text-xs sm:text-sm text-gray-600">
+             <p>
+                <b>เกี่ยวกับเรา:</b> ห้างหุ้นส่วนจำกัด เอส.ที.ดี.เด็นตอล แลป จ.เชียงใหม่<br>
+                เป็นแลปที่รับผลิตเครื่องมือทางทันตกรรมให้กับคลินิกทันตกรรมและโรงพยาบาลทั่วประเทศ<br>
+                ได้เปิดรับสมัครพนักงานรุ่นใหม่ที่พร้อมจะเติบโตไปด้วยกัน
+             </p>
+             <p class="mt-2"><b>ที่ตั้งสำนักงาน:</b> ต.สันปูเลย อ.ดอยสะเก็ด จ.เชียงใหม่ (ใกล้แยกแม่กวง)</p>
+        </footer>
 
     </div>
 
     <script>
-        // --- CONFIGURATION ---
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwhJWSdRTDWW9drAPulgPrQOZk2W8nMkuS9mZHowUlZCEc6aaE43-Exkx7YdOHOyTK9/exec";
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbz9ut83XDGMex7ZiLhdkSqzgy4__Lul2DswbLpv1yP0bkJ62MManR5WcSw7SONQd1bC/exec';
+        let fullDashboardData = [];
 
-        // --- PAGE NAVIGATION ---
-        const pages = ['page-cover', 'page-dashboard', 'page-register', 'page-catalog'];
-        function showPage(pageId) {
-            pages.forEach(id => {
-                const page = document.getElementById(id);
-                if (id === pageId) {
-                    page.classList.remove('hidden');
-                } else {
-                    page.classList.add('hidden');
-                }
-            });
-            window.scrollTo(0, 0);
+        document.addEventListener('DOMContentLoaded', () => {
+            initChiangMaiDistricts();
+            createFloatingEmojis();
+            showPage('page-cover'); 
 
-            // Auto-load data if not already loaded
-            if (pageId === 'page-dashboard' && !localStorage.getItem('clinicData')) {
-                fetchClinicData();
-            }
-            if (pageId === 'page-catalog' && !localStorage.getItem('catalogData')) {
-                fetchCatalogData();
-            }
-        }
-
-        // --- DATA FETCHING (JSONP) ---
-        function fetchDataJsonp(action, callbackName) {
-            const oldScript = document.getElementById('jsonp-script');
-            if (oldScript) {
-                oldScript.remove();
-            }
-            
-            const script = document.createElement('script');
-            script.id = 'jsonp-script';
-            script.src = `${SCRIPT_URL}?action=${action}&callback=${callbackName}`;
-            document.head.appendChild(script);
-            
-            script.onerror = () => {
-                 Swal.fire('Error!', 'ไม่สามารถโหลดข้อมูลได้ กรุณาลองใหม่อีกครั้ง', 'error');
-                 hideAllLoaders();
-                 script.remove();
-            }
-        }
-        
-        function hideAllLoaders() {
-            document.getElementById('loader-dashboard').classList.add('hidden');
-            document.getElementById('loader-catalog').classList.add('hidden');
-        }
-
-        // --- GLOBAL DATA STORE ---
-        let allClinicsData = []; // To hold the full list of clinics for filtering
-
-        // --- CLINIC DASHBOARD ---
-        const clinicTableBody = document.getElementById('clinic-table-body');
-        const updateClinicsBtn = document.getElementById('update-clinics-btn');
-        const provinceFilterSelect = document.getElementById('province-filter'); // Get the filter element
-
-        function fetchClinicData() {
-            document.getElementById('loader-dashboard').style.display = 'flex';
-            clinicTableBody.innerHTML = ''; 
-            localStorage.removeItem('clinicData');
-            fetchDataJsonp('getClinics', 'handleClinicData'); // Call the handler function
-        }
-
-        // This function renders the table based on the filter
-        function renderFilteredClinics() {
-            const filterValue = provinceFilterSelect.value;
-            const clinicsToRender = filterValue === 'all'
-                ? allClinicsData
-                : allClinicsData.filter(clinic => clinic.province === filterValue);
-
-            clinicTableBody.innerHTML = ''; // Clear table before rendering
-
-            if (clinicsToRender && clinicsToRender.length > 0) {
-                clinicsToRender.forEach(clinic => {
-                    const row = document.createElement('tr');
-                    row.className = 'hover:bg-gray-50';
-                    row.innerHTML = `
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">${clinic.province}</td>
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 w-12 h-12">
-                                     <a href="${clinic.logo || '#'}" target="_blank" rel="noopener noreferrer">
-                                        <img class="w-full h-full rounded-full object-cover cursor-pointer hover:opacity-80 transition-opacity" src="${clinic.logo || 'https://placehold.co/100x100/E2E8F0/A0AEC0?text=Logo'}" alt="Clinic Logo" onerror="this.onerror=null;this.src='https://placehold.co/100x100/E2E8F0/A0AEC0?text=Logo';">
-                                     </a>
-                                </div>
-                                <div class="ml-3">
-                                    <p class="text-gray-900 whitespace-no-wrap font-semibold">${clinic.name}</p>
-                                    <a href="${clinic.pageLink || '#'}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-700 whitespace-no-wrap text-xs">เยี่ยมชมเพจ</a>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <a href="${clinic.cover || '#'}" target="_blank" rel="noopener noreferrer">
-                                <img class="w-24 h-16 rounded-md object-cover cursor-pointer hover:opacity-80 transition-opacity" src="${clinic.cover || 'https://placehold.co/400x200/E2E8F0/A0AEC0?text=Cover'}" alt="Cover Photo" onerror="this.onerror=null;this.src='https://placehold.co/400x200/E2E8F0/A0AEC0?text=Cover';">
-                            </a>
-                        </td>
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <span class="text-yellow-500 text-lg">${clinic.review || 'N/A'}</span>
-                        </td>
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <p class="text-gray-900 whitespace-no-wrap">${clinic.phone}</p>
-                        </td>
-                    `;
-                    clinicTableBody.appendChild(row);
-                });
-            } else {
-                 clinicTableBody.innerHTML = '<tr><td colspan="5" class="text-center p-4">ไม่พบข้อมูลคลินิกที่ตรงกับจังหวัดที่เลือก</td></tr>';
-            }
-        }
-
-        // This is the JSONP callback. It prepares data and populates the filter.
-        function handleClinicData(data) {
-            localStorage.setItem('clinicData', JSON.stringify(data));
-            allClinicsData = data || []; // Store data globally
-            
-            // Populate the filter dropdown with unique provinces from the data
-            const currentFilterValue = provinceFilterSelect.value;
-            const uniqueProvinces = [...new Set(allClinicsData.map(c => c.province).filter(p => p))].sort();
-            provinceFilterSelect.innerHTML = '<option value="all">-- ทุกจังหวัด --</option>'; // Reset
-            uniqueProvinces.forEach(p => {
-                const option = document.createElement('option');
-                option.value = p;
-                option.textContent = p;
-                provinceFilterSelect.appendChild(option);
-            });
-             // Restore previous filter selection if it still exists
-            if (uniqueProvinces.includes(currentFilterValue)) {
-                provinceFilterSelect.value = currentFilterValue;
-            }
-
-            renderFilteredClinics(); // Render the table with the new data
-            document.getElementById('loader-dashboard').style.display = 'none';
-        }
-
-        // --- CATALOG ---
-        const catalogGrid = document.getElementById('catalog-grid');
-        const updateCatalogBtn = document.getElementById('update-catalog-btn');
-
-        function fetchCatalogData() {
-            document.getElementById('loader-catalog').style.display = 'flex';
-            catalogGrid.innerHTML = '';
-            localStorage.removeItem('catalogData');
-            fetchDataJsonp('getCatalog', 'renderCatalog');
-        }
-
-        function renderCatalog(data) {
-            localStorage.setItem('catalogData', JSON.stringify(data));
-            catalogGrid.innerHTML = '';
-             if (data && data.length > 0) {
-                 data.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'card text-center';
-                    card.innerHTML = `
-                        <a href="${item.imageUrl || '#'}" target="_blank" rel="noopener noreferrer">
-                           <img src="${item.imageUrl || 'https://placehold.co/300x300/E2E8F0/A0AEC0?text=Product'}" alt="${item.name}" class="w-full h-48 object-cover cursor-pointer hover:opacity-80 transition-opacity" onerror="this.onerror=null;this.src='https://placehold.co/300x300/E2E8F0/A0AEC0?text=Product';">
-                        </a>
-                        <div class="p-4">
-                            <a href="${item.imageUrl || '#'}" target="_blank" rel="noopener noreferrer">
-                               <h3 class="font-semibold text-gray-800 hover:text-blue-600 transition-colors">${item.name}</h3>
-                            </a>
-                        </div>
-                    `;
-                    catalogGrid.appendChild(card);
-                 });
-             } else {
-                catalogGrid.innerHTML = '<p class="col-span-full text-center">ไม่พบข้อมูลสินค้า</p>';
-             }
-            document.getElementById('loader-catalog').style.display = 'none';
-        }
-        
-        // --- REGISTRATION FORM ---
-        const clinicForm = document.getElementById('clinic-form');
-        clinicForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            Swal.fire({ title: 'กำลังบันทึกข้อมูล...', text: 'กรุณารอสักครู่', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); }});
-            const formData = new FormData(clinicForm);
-            const data = Object.fromEntries(formData.entries());
-            try {
-                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/x-www-form-urlencoded',}, body: new URLSearchParams(data).toString()});
-                Swal.fire({ icon: 'success', title: 'บันทึกสำเร็จ!', text: 'ข้อมูลของท่านถูกส่งเรียบร้อยแล้ว'});
-                clinicForm.reset();
-                populateProvinces();
-            } catch (error) {
-                console.error('Error:', error);
-                Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: 'ไม่สามารถบันทึกข้อมูลได้'});
-            }
+            document.getElementById('update-dashboard').addEventListener('click', () => renderDashboard(true));
+            document.getElementById('update-catalog').addEventListener('click', () => renderCatalog(true));
+            document.getElementById('update-benefits').addEventListener('click', () => renderBenefits(true));
+            document.getElementById('application-form').addEventListener('submit', handleFormSubmit);
         });
 
-        // --- INITIALIZATION ---
-        const provinces = ["กระบี่", "กรุงเทพมหานคร", "กาญจนบุรี", "กาฬสินธุ์", "กำแพงเพชร", "ขอนแก่น", "จันทบุรี", "ฉะเชิงเทรา", "ชลบุรี", "ชัยนาท", "ชัยภูมิ", "ชุมพร", "เชียงราย", "เชียงใหม่", "ตรัง", "ตราด", "ตาก", "นครนายก", "นครปฐม", "นครพนม", "นครราชสีมา", "นครศรีธรรมราช", "นครสวรรค์", "นนทบุรี", "นราธิวาส", "น่าน", "บึงกาฬ", "บุรีรัมย์", "ปทุมธานี", "ประจวบคีรีขันธ์", "ปราจีนบุรี", "ปัตตานี", "พระนครศรีอยุธยา", "พะเยา", "พังงา", "พัทลุง", "พิจิตร", "พิษณุโลก", "เพชรบุรี", "เพชรบูรณ์", "แพร่", "ภูเก็ต", "มหาสารคาม", "มุกดาหาร", "แม่ฮ่องสอน", "ยโสธร", "ยะลา", "ร้อยเอ็ด", "ระนอง", "ระยอง", "ราชบุรี", "ลพบุรี", "ลำปาง", "ลำพูน", "เลย", "ศรีสะเกษ", "สกลนคร", "สงขลา", "สตูล", "สมุทรปราการ", "สมุทรสงคราม", "สมุทรสาคร", "สระแก้ว", "สระบุรี", "สิงห์บุรี", "สุโขทัย", "สุพรรณบุรี", "สุราษฎร์ธานี", "สุรินทร์", "หนองคาย", "หนองบัวลำภู", "อ่างทอง", "อำนาจเจริญ", "อุดรธานี", "อุตรดิตถ์", "อุทัยธานี", "อุบลราชธานี"];
+        function createFloatingEmojis() {
+            const container = document.getElementById('cover-emojis-container');
+            const emojis = ['🦷', '✨', '💖', '🚀', '🌟', '💼', '📦', '🎉', '📄', '💡'];
+            const emojiCount = 15;
 
-        function populateProvinces() {
-            const provinceSelect = document.getElementById('province');
-            provinceSelect.innerHTML = '<option value="" disabled selected>--- เลือกจังหวัด ---</option>';
-            provinces.forEach(p => {
-                const option = document.createElement('option');
-                option.value = p;
-                option.textContent = p;
-                provinceSelect.appendChild(option);
+            for (let i = 0; i < emojiCount; i++) {
+                const emojiEl = document.createElement('div');
+                emojiEl.classList.add('floating-element');
+                emojiEl.innerText = emojis[i % emojis.length];
+                emojiEl.style.left = `${Math.random() * 100}%`;
+                emojiEl.style.top = `${Math.random() * 100}%`;
+                emojiEl.style.fontSize = `${Math.random() * 1.5 + 1.5}rem`;
+                emojiEl.style.animationDuration = `${Math.random() * 15 + 10}s`;
+                emojiEl.style.animationDelay = `${Math.random() * 10}s`;
+                container.appendChild(emojiEl);
+            }
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            const isCover = pageId === 'page-cover';
+            document.getElementById('cover-emojis-container').style.display = isCover ? 'block' : 'none';
+            if (pageId === 'page-dashboard' && fullDashboardData.length === 0) renderDashboard();
+            if (pageId === 'page-catalog' && document.getElementById('catalog-grid').innerHTML === "") renderCatalog();
+            if (pageId === 'page-benefits' && document.getElementById('benefits-accordion').innerHTML.includes('...')) renderBenefits();
+        }
+        
+        function fetchData(sheetName, forceUpdate = false) {
+            const cacheKey = `data_${sheetName}`;
+            const cachedData = localStorage.getItem(cacheKey);
+            if (cachedData && !forceUpdate) return Promise.resolve(JSON.parse(cachedData));
+            const timestamp = new Date().getTime();
+            const url = `${GAS_URL}?sheet=${sheetName}&callback=jsonpCallback&_=${timestamp}`;
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = url;
+                window.jsonpCallback = (data) => {
+                    if (data.status === 'error') reject(new Error(data.message));
+                    else {
+                        localStorage.setItem(cacheKey, JSON.stringify(data));
+                        resolve(data);
+                    }
+                    document.body.removeChild(script);
+                    delete window.jsonpCallback;
+                };
+                script.onerror = () => {
+                    reject(new Error('Failed to load script for JSONP request.'));
+                    document.body.removeChild(script);
+                    delete window.jsonpCallback;
+                };
+                document.body.appendChild(script);
             });
         }
         
-        // ADDED: Function to create animated emoji background
-        function createEmojiBackground() {
-            const container = document.getElementById('emoji-background');
-            const emojiCount = 30; // Number of emojis
-            for (let i = 0; i < emojiCount; i++) {
-                const emoji = document.createElement('span');
-                emoji.className = 'emoji';
-                emoji.textContent = '🦷';
-                emoji.style.left = `${Math.random() * 100}vw`; // Random horizontal position
-                emoji.style.animationDuration = `${Math.random() * 10 + 10}s`; // Random duration between 10-20s
-                emoji.style.animationDelay = `-${Math.random() * 15}s`; // Start at different times
-                emoji.style.fontSize = `${Math.random() * 2 + 1}rem`; // Random size
-                container.appendChild(emoji);
+        async function renderDashboard(forceUpdate = false) {
+            const tableBody = document.getElementById('dashboard-table-body');
+            tableBody.innerHTML = '<tr><td colspan="3" class="text-center p-8">กำลังโหลดข้อมูล...</td></tr>';
+            try {
+                const data = await fetchData('Dashboard', forceUpdate);
+                fullDashboardData = data;
+                displayDashboardData(fullDashboardData);
+                setupFilterButtons();
+            } catch (error) {
+                tableBody.innerHTML = `<tr><td colspan="3" class="text-center p-8 text-red-500">เกิดข้อผิดพลาด: ${error.message}</td></tr>`;
             }
         }
 
-        function loadCachedData() {
-            const clinicData = localStorage.getItem('clinicData');
-            if(clinicData){
-                handleClinicData(JSON.parse(clinicData));
+        function displayDashboardData(data) {
+             const tableBody = document.getElementById('dashboard-table-body');
+            if (!data || data.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="3" class="text-center p-8">ไม่พบข้อมูลผู้สมัคร</td></tr>';
+                return;
             }
-            const catalogData = localStorage.getItem('catalogData');
-            if(catalogData) {
-                renderCatalog(JSON.parse(catalogData));
-            }
+            tableBody.innerHTML = data.map(row => `
+                <tr class="hover:bg-gray-100">
+                    <td class="p-3">${row['ชื่อ-สกุล'] || ''}</td>
+                    <td class="p-3">${row['สมัครตำแหน่ง'] || ''}</td>
+                    <td class="p-3">${row['สถานะผู้สมัคร'] || ''}</td>
+                </tr>
+            `).join('');
         }
 
-        window.onload = function() {
-            populateProvinces();
-            loadCachedData();
-            createEmojiBackground(); // Create the background on load
-            updateClinicsBtn.addEventListener('click', fetchClinicData);
-            updateCatalogBtn.addEventListener('click', fetchCatalogData);
-            provinceFilterSelect.addEventListener('change', renderFilteredClinics); // Add event listener for the filter
-        };
+        function setupFilterButtons() {
+            const filterContainer = document.getElementById('filter-buttons');
+            const positions = ['ทั้งหมด', ...new Set(fullDashboardData.map(row => row['สมัครตำแหน่ง']).filter(p => p))];
+            filterContainer.innerHTML = positions.map(pos => 
+                `<button class="px-3 py-1 m-1 rounded-full text-sm transition-colors duration-300 ${pos === 'ทั้งหมด' ? 'bg-purple-600 text-white' : 'bg-gray-200 hover:bg-purple-200'}" data-position="${pos}">${pos}</button>`
+            ).join('');
+            filterContainer.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    filterContainer.querySelectorAll('button').forEach(b => {
+                        b.classList.remove('bg-purple-600', 'text-white');
+                        b.classList.add('bg-gray-200');
+                    });
+                    btn.classList.add('bg-purple-600', 'text-white');
+                    btn.classList.remove('bg-gray-200');
+                    const position = e.target.dataset.position;
+                    const filteredData = (position === 'ทั้งหมด') ? fullDashboardData : fullDashboardData.filter(row => row['สมัครตำแหน่ง'] === position);
+                    displayDashboardData(filteredData);
+                });
+            });
+        }
+        
+        function initChiangMaiDistricts() {
+            const districts = ["เมืองเชียงใหม่", "สารภี", "สันกำแพง", "สันทราย", "ดอยสะเก็ด", "แม่ริม", "แม่แตง", "แม่ออน", "หางดง", "สันป่าตอง", "จอมทอง", "ดอยหล่อ", "เวียงหนองล่อง", "บ้านโฮ่ง", "แม่วาง", "สะเมิง", "กัลยาณิวัฒนา", "เชียงดาว", "พร้าว", "เวียงแหง", "ไชยปราการ", "ฝาง", "แม่อาย", "แม่แจ่ม", "ฮอด", "ดอยเต่า", "อมก๋อย"];
+            const select = document.getElementById('district');
+            select.innerHTML = '<option value="">-- เลือกอำเภอปัจจุบัน --</option>' + districts.map(d => `<option value="${d}">${d}</option>`).join('');
+        }
+        
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const data = Object.fromEntries(new FormData(form).entries());
+            Swal.fire({ title: 'กำลังส่งข้อมูล...', text: 'กรุณารอสักครู่', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            try {
+                await fetch(GAS_URL, { 
+                    method: 'POST', 
+                    mode: 'no-cors', 
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8', }, 
+                    body: JSON.stringify(data) 
+                });
+                Swal.fire({ icon: 'success', title: 'ส่งใบสมัครสำเร็จ!', text: 'ขอบคุณที่สนใจร่วมงานกับเรา ทางเราจะติดต่อกลับไปโดยเร็วที่สุด' });
+                form.reset();
+                initChiangMaiDistricts();
+                renderDashboard(true);
+            } catch (error) {
+                 Swal.fire({ icon: 'success', title: 'ส่งใบสมัครสำเร็จ!', text: 'ขอบคุณที่สนใจร่วมงานกับเรา ทางเราจะติดต่อกลับไปโดยเร็วที่สุด (no-cors)' });
+                form.reset();
+                initChiangMaiDistricts();
+                renderDashboard(true); 
+            }
+        }
+        
+        async function renderCatalog(forceUpdate = false) {
+            const grid = document.getElementById('catalog-grid');
+            grid.innerHTML = '<p class="col-span-full text-center">กำลังโหลดข้อมูล...</p>';
+            try {
+                const data = await fetchData('catalog', forceUpdate);
+                 if (!data || !data.length) {
+                    grid.innerHTML = '<p class="col-span-full text-center">ไม่พบข้อมูลสินค้า</p>';
+                    return;
+                }
+                grid.innerHTML = data.map(item => `
+                    <div class="group relative aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 cursor-pointer shadow-lg" onclick="window.open('${item.ImageURL}', '_blank')">
+                        <!-- Image -->
+                        <img src="${item.ImageURL}" alt="${item.ProductName}" class="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-110"
+                             onerror="this.onerror=null; this.src='https://placehold.co/400x400/e0c3fc/333?text=Image+Not+Found';">
+                        
+                        <!-- Title at the top center with gradient background -->
+                        <div class="absolute top-0 left-0 right-0 p-3 bg-gradient-to-b from-black/60 to-transparent transition-all duration-300">
+                            <h3 class="text-white text-center font-bold text-lg drop-shadow-md">${item.ProductName || 'Untitled'}</h3>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                grid.innerHTML = `<p class="col-span-full text-center text-red-500">เกิดข้อผิดพลาด: ${error.message}</p>`;
+            }
+        }
+        
+        async function renderBenefits(forceUpdate = false) {
+            const accordionContainer = document.getElementById('benefits-accordion');
+            accordionContainer.innerHTML = '<p class="text-center">กำลังโหลดข้อมูล...</p>';
+            try {
+                const data = await fetchData('benefit', forceUpdate);
+                const categories = [ "สวัสดิการเมื่อได้รับการบรรจุเป็นพนักงานของบริษัท", "คุณสมบัติผู้สมัครและรายละเอียดงาน", "หน้าที่ในการปฏิบัติงาน" ];
+                const groupedData = categories.reduce((acc, category) => {
+                    acc[category] = data.filter(item => item.Category === category).map(item => item.Detail);
+                    return acc;
+                }, {});
+                if (data.length === 0) {
+                    accordionContainer.innerHTML = '<p class="text-center">ไม่พบข้อมูลสวัสดิการ</p>';
+                    return;
+                }
+                accordionContainer.innerHTML = categories.map((category) => {
+                    const details = groupedData[category];
+                    if (!details || details.length === 0) return ''; 
+                    return `
+                        <div class="border rounded-lg overflow-hidden shadow-sm bg-white">
+                            <button class="accordion-button">
+                                <span>${category}</span>
+                                <span class="icon"></span>
+                            </button>
+                            <div class="accordion-content">
+                                <ul class="list-disc list-inside space-y-2 text-zinc-600 pt-2">
+                                    ${details.map(detail => `<li>${detail}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                accordionContainer.querySelectorAll('.accordion-button').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const wasActive = button.classList.contains('active');
+                        accordionContainer.querySelectorAll('.accordion-button').forEach(btn => {
+                            btn.classList.remove('active');
+                            btn.nextElementSibling.classList.remove('show');
+                        });
+                        if (!wasActive) {
+                            button.classList.add('active');
+                            button.nextElementSibling.classList.add('show');
+                        }
+                    });
+                });
+            } catch(error) {
+                 accordionContainer.innerHTML = `<p class="text-red-500 text-center">เกิดข้อผิดพลาด: ${error.message}</p>`;
+            }
+        }
     </script>
 </body>
 </html>
