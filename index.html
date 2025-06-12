@@ -51,7 +51,6 @@
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
     
-    <!-- REMOVED onload attribute -->
     <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
     <div class="main-card w-full max-w-5xl mx-auto p-6 sm:p-10 z-10 overflow-hidden">
@@ -88,7 +87,7 @@
             <section id="page-dashboard" class="page">
                 <div class="grid grid-cols-3 items-center mb-6">
                     <div class="text-left"><button onclick="showPage('page-cover')" class="px-5 py-2 rounded-full font-semibold text-sm bg-gray-200 text-gray-700 hover:bg-gray-300 hover:scale-105 hover:shadow-md transition-all shadow-sm flex items-center gap-2">🏠<span class="hidden sm:inline"> กลับหน้าหลัก</span></button></div>
-                    <div class="text-center"><h2 class="text-xl sm:text-2xl font-bold">สถานะผู้สมัคร</h2></div>
+                    <div class="text-center"><h2 class="text-xl sm:text-2xl font-bold">สถานะผู้สมัคร (30 คนแรก)</h2></div>
                     <div class="text-right"><button id="update-dashboard" class="btn-update px-3 sm:px-4 py-2 rounded-full bg-sky-500 text-white hover:bg-sky-600 transition-all transform hover:scale-105 shadow-md flex items-center gap-2 text-sm font-semibold ml-auto"><span class="update-icon">🔄</span><span class="hidden sm:inline">อัพเดทข้อมูล</span></button></div>
                 </div>
                 <div class="mb-4 text-center" id="filter-buttons"></div>
@@ -149,7 +148,6 @@
             document.getElementById('application-form').action = GAS_URL;
             showPage('page-cover'); 
 
-            // ADDED: iframe load listener inside DOMContentLoaded
             const iframe = document.getElementById('hidden_iframe');
             iframe.addEventListener('load', function () {
                 if (submitted) {
@@ -189,7 +187,7 @@
         
         function createFloatingEmojis() {
             const container = document.getElementById('cover-emojis-container');
-            const emojis = ['🦷', '✨', '💖', '🚀', '🌟', '💼', '📦', '🎉', '📄', '💡'];
+            const emojis = ['🦷', '✨', '💖', '🚀', '🌟', '�', '📦', '🎉', '📄', '💡'];
             const emojiCount = 15;
             for (let i = 0; i < emojiCount; i++) {
                 const emojiEl = document.createElement('div');
@@ -238,13 +236,16 @@
             });
         }
         
+        // --- UPDATED DASHBOARD RENDERING LOGIC ---
         async function renderDashboard(forceUpdate = false) {
             const tableBody = document.getElementById('dashboard-table-body');
             tableBody.innerHTML = '<tr><td colspan="3" class="text-center p-8">กำลังโหลดข้อมูล...</td></tr>';
             try {
                 const data = await fetchData('Dashboard', forceUpdate);
-                fullDashboardData = data;
-                displayDashboardData(fullDashboardData);
+                // DO NOT REVERSE the array to get the first entries
+                fullDashboardData = data.slice(); 
+                // Initially display the first 30 applicants
+                displayDashboardData(fullDashboardData.slice(0, 30)); 
                 setupFilterButtons();
             } catch (error) {
                 tableBody.innerHTML = `<tr><td colspan="3" class="text-center p-8 text-red-500">เกิดข้อผิดพลาด: ${error.message}</td></tr>`;
@@ -265,8 +266,13 @@
                     filterContainer.querySelectorAll('button').forEach(b => { b.classList.remove('bg-purple-600', 'text-white'); b.classList.add('bg-gray-200'); });
                     btn.classList.add('bg-purple-600', 'text-white');
                     btn.classList.remove('bg-gray-200');
-                    const filteredData = (e.target.dataset.position === 'ทั้งหมด') ? fullDashboardData : fullDashboardData.filter(row => row['สมัครตำแหน่ง'] === e.target.dataset.position);
-                    displayDashboardData(filteredData);
+                    
+                    const position = e.target.dataset.position;
+                    const filteredData = (position === 'ทั้งหมด') 
+                        ? fullDashboardData 
+                        : fullDashboardData.filter(row => row['สมัครตำแหน่ง'] === position);
+                    
+                    displayDashboardData(filteredData.slice(0, 30));
                 });
             });
         }
@@ -317,3 +323,4 @@
     </script>
 </body>
 </html>
+�
